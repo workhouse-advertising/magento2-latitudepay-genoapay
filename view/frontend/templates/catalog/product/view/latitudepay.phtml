@@ -1,0 +1,12 @@
+<?php
+$_helper          = $this->helper('Latitude\Payment\Helper\Config');
+$block_identifier = $_helper->getConfigData('static_block_pdp');
+?>
+<div id="lpay-model-popup" class="lpay-popup" style="display:none;">
+    <?php
+    echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId($block_identifier)
+        ->toHtml();
+    ?>
+</div>

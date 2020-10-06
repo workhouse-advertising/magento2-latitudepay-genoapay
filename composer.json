@@ -1,0 +1,17 @@
+{
+  "name": "latitude/payment",
+  "description": "Latitudepay/Genoapay Payments Magento 2 Extension",
+  "type": "magento2-module",
+  "license": [
+    "proprietary"
+  ],
+  "version": "1.0.4",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Latitude\\Payment\\": ""
+    }
+  }
+}

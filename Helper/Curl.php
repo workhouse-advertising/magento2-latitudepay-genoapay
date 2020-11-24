@@ -90,7 +90,20 @@ class Curl extends AbstractHelper
             $username = $this->encryptor->decrypt($this->configHelper->getConfigData('client_key',$storeId,$methodCode)) ;
             $password = $this->encryptor->decrypt($this->configHelper->getConfigData('client_secret',$storeId,$methodCode));
 
-            $this->curlClient->addHeader("Content-Type", "application/json");
+            $options = array(
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION =>CURL_HTTP_VERSION_1_1
+            );
+            $headers = [
+                'Content-Type' => "application/com.latitudepay.ecom-v3.0+json",
+                "Accept" => "application/com.latitudepay.ecom-v3.0+json",
+                "Cache-Control" => "no-cache"
+            ];
+            $this->curlClient->setHeaders($headers);
+            $this->curlClient->setOptions($options);
             $this->curlClient->setCredentials($username, $password);
             $this->curlClient->post($url, array());
             $response = $this->curlClient->getBody();

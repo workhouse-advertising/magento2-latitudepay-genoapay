@@ -188,7 +188,7 @@ abstract class AbstractLatitude extends AppAction  implements RedirectLoginInter
     {
         $quote = $quoteObject ? $quoteObject : $this->_getQuote();
         /** @noinspection PhpUndefinedMethodInspection */
-        if (!$quote->hasItems() || $quote->getHasError() || 1) {
+        if (!$quote->hasItems() || $quote->getHasError()) {
             /** @noinspection PhpUndefinedMethodInspection */
             $this->getResponse()->setStatusHeader(403, '1.1', 'Forbidden');
             throw new \Magento\Framework\Exception\LocalizedException(__('There was an error with your payment, please try again or select other payment method.'));

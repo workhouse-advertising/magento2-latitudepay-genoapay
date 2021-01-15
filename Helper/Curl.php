@@ -107,7 +107,7 @@ class Curl extends AbstractHelper
             $this->curlClient->setCredentials($username, $password);
             $this->curlClient->post($url, array());
             $response = $this->curlClient->getBody();
-            if (!array_key_exists('error', json_decode($response))) {
+            if (!property_exists(json_decode($response), 'error')) {
 
                 $responseJsonDecoded = json_decode($response);
                 $this->authToken = $responseJsonDecoded->authToken;

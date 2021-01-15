@@ -103,7 +103,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         $this->genoapayCurrency             =  $this->scopeConfig->getValue(self::GENOAPAY_CURRENCY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $this->supportedCurrencyCodes       = array($this->latitudepayCurrency=>'latitudepay',$this->genoapayCurrency=>'genoapay');
 
-        if (array_key_exists($this->currentCurrencyCode, $this->supportedCurrencyCodes)) {
+        if (isset($this->supportedCurrencyCodes[$this->currentCurrencyCode])) {
             $this->code = $this->supportedCurrencyCodes[$this->currentCurrencyCode];
         }
     }
@@ -146,7 +146,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         if (empty($this->code)) {
             return false;
         }
-        if (array_key_exists($field, $this->configVars)) {
+        if (isset($this->configVars[$field])){
             $path = 'payment/' . $this->code . '/' . $field;
         } else {
             $path = '';

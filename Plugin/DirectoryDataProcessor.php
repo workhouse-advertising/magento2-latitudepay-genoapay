@@ -118,7 +118,7 @@ class DirectoryDataProcessor
         $this->configHelper                 = $configHelper;
 
 
-        if (array_key_exists($this->currentCurrencyCode, $this->supportedCurrencyCodes)) {
+        if (isset($this->supportedCurrencyCodes[$this->currentCurrencyCode])) {
             $this->code = $this->supportedCurrencyCodes[$this->currentCurrencyCode];
         }
         if( $this->code == 'latitudepay') {

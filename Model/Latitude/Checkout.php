@@ -653,7 +653,7 @@ class Checkout
     protected function _setRedirectUrl($response)
     {
 
-        if (array_key_exists("paymentUrl",$response))
+        if (isset($response['paymentUrl']))
         {
             $this->redirectUrl = $response['paymentUrl'];
         }

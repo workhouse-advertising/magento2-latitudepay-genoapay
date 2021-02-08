@@ -33,13 +33,13 @@ define(['jquery','Magento_Ui/js/modal/modal'],function($,modal) {
             buttons: []
         };
         function initPaymentOptionPopup () {
-            $("#open-lpay-popup").on('click',function(){
+            $("#open-lpay-popup, .latitude-icon .text-learnmore").on('click',function(){
                 $('#lpay-model-popup').show();
                 var popupdata = $('<div />').append($('#lpay-model-popup'));
                 modal(lpayOptions,popupdata);
                 popupdata.modal("openModal");
             });
-            $("#open-genoapay-popup").on('click',function(){
+            $("#open-genoapay-popup, .genoapay-icon .text-learnmore").on('click',function(){
                 $('#gpay-model-popup').show();
                 var popupdata = $('<div  style="height: 100%"/>').append($('#gpay-model-popup'));
                 modal(gpayOptions,popupdata);

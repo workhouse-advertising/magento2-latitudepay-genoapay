@@ -14,10 +14,6 @@ define(
             {
                 type: 'latitudepay',
                 component: 'Latitude_Payment/js/view/payment/method-renderer/latitudepay'
-            },
-            {
-                type: 'genoapay',
-                component: 'Latitude_Payment/js/view/payment/method-renderer/genoapay'
             }
         );
         /** Add view logic here if needed */

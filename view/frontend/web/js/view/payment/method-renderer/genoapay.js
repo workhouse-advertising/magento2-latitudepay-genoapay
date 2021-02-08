@@ -57,6 +57,12 @@ define(
                             customerData.invalidate(['cart']);
                             $.get(window.checkoutConfig.payment.latitude.redirectUrl[quote.paymentMethod().method]+'?isAjax=true')
                                 .done(function (response) {
+
+                                    if (response['success']) {
+                                        if (response['redirect_url']) {
+                                            $.mage.redirect(response['redirect_url']);
+                                        }
+                                    }
                                     var msg = $.mage.__('There was an error with your payment, please try again or select other payment method');
                                     if(response['error']){
                                         msg = response['message'];

@@ -37,9 +37,10 @@ class Start extends GetToken
             }
             if ($token && $url) {
                 $this->_initToken($token);
-                /** @noinspection PhpUndefinedMethodInspection */
-                $this->getResponse()->setRedirect($url);
-
+                $response = [
+                    "success" => true,
+                    "redirect_url" => $url
+                ];
             }
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $this->logger->critical($e);
@@ -54,6 +55,5 @@ class Start extends GetToken
         }
 
         return $resultJson->setData($response);
-
     }
 }

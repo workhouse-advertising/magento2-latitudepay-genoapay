@@ -49,7 +49,7 @@ class UpgradeData implements UpgradeDataInterface
             $this->PdpInstallmentSection();
         }
 
-        if (version_compare($context->getVersion(), '1.0.5', '<')) {
+        if (version_compare($context->getVersion(), '1.0.7', '<')) {
             $this->PdpInstallmentSectionUpdate();
         }
 

@@ -57,18 +57,18 @@ define(
                             customerData.invalidate(['cart']);
                             $.get(window.checkoutConfig.payment.latitude.redirectUrl[quote.paymentMethod().method]+'?isAjax=true')
                                 .done(function (response) {
-
                                     if (response['success']) {
                                         if (response['redirect_url']) {
                                             $.mage.redirect(response['redirect_url']);
                                         }
+                                    } else {
+                                        var msg = $.mage.__('There was an error with your payment, please try again or select other payment method');
+                                        if(response['error']){
+                                            msg = response['message'];
+                                        }
+                                        fullScreenLoader.stopLoader();
+                                        messageList.addErrorMessage({ message: msg});
                                     }
-                                    var msg = $.mage.__('There was an error with your payment, please try again or select other payment method');
-                                    if(response['error']){
-                                        msg = response['message'];
-                                    }
-                                    fullScreenLoader.stopLoader();
-                                    messageList.addErrorMessage({ message: msg});
                                 }).fail(function (response) {
                                 $.mage.redirect(
                                     window.checkoutConfig.payment.latitude.redirectUrl[quote.paymentMethod().method]+'?method=genoapay'

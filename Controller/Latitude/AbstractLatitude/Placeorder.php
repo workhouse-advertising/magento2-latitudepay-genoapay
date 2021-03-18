@@ -23,10 +23,12 @@ class Placeorder extends \Latitude\Payment\Controller\Latitude\AbstractLatitude
     public function execute()
     {
         $post = $this->getRequest()->getParams();
+
         if($post && $post["result"] != "COMPLETED"){
-            $this->_redirect('*/*/cancel');
+            $this->_redirect('*/*/cancel',['_query' => $post]);
             return;
         }
+
         try {
 
             $this->_initCheckout();
@@ -35,6 +37,8 @@ class Placeorder extends \Latitude\Payment\Controller\Latitude\AbstractLatitude
 
             $this->checkout->returnFromLatitude($tokenId);
 
+            // Log payload callback
+            $this->logCallback($post);
 
             $this->checkout->place($post["token"]);
 
@@ -77,7 +81,6 @@ class Placeorder extends \Latitude\Payment\Controller\Latitude\AbstractLatitude
         }  catch (LocalizedException $e) {
             $this->processException($e, $e->getRawMessage());
         } catch (\Exception $e) {
-
             $this->processException($e, 'We can\'t place the order.');
         }
     }
@@ -96,6 +99,4 @@ class Placeorder extends \Latitude\Payment\Controller\Latitude\AbstractLatitude
 
         $this->_redirect('checkout?cancel', ['_fragment' => 'payment']);
     }
-
-
 }

@@ -23,6 +23,9 @@ class Fail extends GetToken
     {
         try {
             $this->_initToken(false);
+            // Log payload callback
+            $post = $this->getRequest()->getParams();
+            $this->logCallback($post);
             // if there is an order - cancel it
             /** @noinspection PhpUndefinedMethodInspection */
             $orderId = $this->_getCheckoutSession()->getLastOrderId();
@@ -46,6 +49,7 @@ class Fail extends GetToken
                     __('Checkout has been canceled.')
                 );
             }
+
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $this->messageManager->addExceptionMessage($e, $e->getMessage());
         } catch (\Exception $e) {

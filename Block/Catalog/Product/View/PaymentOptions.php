@@ -81,7 +81,7 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
     {
         $curInstallment = 10;
         $amountPerInstallment ='';
-        $totalAmount = $this->getCurrentProduct()->getPriceInfo()->getPrice('final_price')->getValue();
+        $totalAmount = $this->getCurrentProduct()->getFinalPrice();
         $InstallmentNo = $this->configHelper->getConfigData('installment_no');
         if($InstallmentNo){
             $curInstallment = $InstallmentNo;

@@ -49,6 +49,10 @@ class UpgradeData implements UpgradeDataInterface
             $this->PdpInstallmentSection();
         }
 
+        if (version_compare($context->getVersion(), '1.0.7', '<')) {
+            $this->PdpInstallmentSectionUpdate();
+        }
+
         $installer->endSetup();
     }
 
@@ -97,6 +101,17 @@ class UpgradeData implements UpgradeDataInterface
             'identifier'
         );
         $data = "<span ><strong>10</strong> interest free payments starting from <strong>%1 </strong> with</span>";
+        $blockId->setContent($data);
+        $this->saveBlock($blockId);
+    }
+
+    private function PdpInstallmentSectionUpdate()
+    {
+        $blockId =  $this->blockFactory->create()->load(
+            'latitude_product_block',
+            'identifier'
+        );
+        $data = "<span ><strong>10</strong>  weekly payments of <strong>%1 </strong> <span class='text-learnmore'>learn more</span></span>";
         $blockId->setContent($data);
         $this->saveBlock($blockId);
     }

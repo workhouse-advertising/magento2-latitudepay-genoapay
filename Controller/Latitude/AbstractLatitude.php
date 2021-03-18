@@ -329,6 +329,26 @@ abstract class AbstractLatitude extends AppAction  implements RedirectLoginInter
     {
         return 'start';
     }
+
+    /**
+     * Log payload callback
+     *
+     * @param mixed $payload
+     * @return void
+     */
+    public function logCallback($payload)
+    {
+        $quote = $this->_getQuote();
+        if (
+            $payload &&
+            $quote &&
+            $quote->getPayment()->getMethod() &&
+            $this->configHelper->getConfigData('logging',$quote->getStoreId(),$quote->getPayment()->getMethod())
+        ) {
+            $this->logger->info('Order Status (RESPONSE): ', $payload);
+        }
+    }
+
     /**
      * @inheritdoc
      */

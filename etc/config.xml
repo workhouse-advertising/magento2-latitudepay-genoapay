@@ -33,6 +33,7 @@
                 <static_block_pdp>latitudepay-popup-content</static_block_pdp>
                 <api_url_production>https://api.latitudepay.com/v3</api_url_production>
                 <api_url_sandbox>https://api.uat.latitudepay.com/v3</api_url_sandbox>
+                <show_in_mobile>1</show_in_mobile>
             </latitudepay>
             <genoapay>
                 <active>1</active>
@@ -56,6 +57,7 @@
                 <static_block_pdp>genoapay-popup-content</static_block_pdp>
                 <api_url_production>https://api.genoapay.com/v3</api_url_production>
                 <api_url_sandbox>https://api.uat.genoapay.com/v3</api_url_sandbox>
+                <show_in_mobile>1</show_in_mobile>
             </genoapay>
         </payment>
     </default>

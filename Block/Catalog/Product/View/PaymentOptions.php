@@ -110,7 +110,7 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
      */
     public function displayIconInMobile($methodCode = null)
     {
-        return $this->configHelper->getConfigData('show_in_mobile','',$methodCode);
+        return $this->configHelper->getConfigData('show_in_mobile',null, $methodCode);
     }
 
 }

@@ -21,7 +21,7 @@ class Callback extends \Latitude\Payment\Controller\Latitude\AbstractLatitude
         try {
             $this->_initToken(false);
             // Log payload callback
-            $post = $this->getRequest()->getParams();
+            $post = $this->getRequest()->getPostValue();
             $this->logger->info('Callback received');
             $this->logCallback($post);
             $result = ['success' => true];

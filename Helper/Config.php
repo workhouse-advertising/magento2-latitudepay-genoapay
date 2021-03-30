@@ -18,7 +18,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     CONST CLIENTSECRET       = "client_secret";
     CONST SUCCESSURL         = "success_url";
     CONST FAILURL            = "fail_url";
-    CONST CALLBACKURL        = "call_back_url";
+    CONST CALLBACKURL        = "callback_url";
     CONST LOGGER             = "logger";
     CONST CURRENCY           = "currency";
     CONST ALLOWED_CURRENCIES = "allowed_currencies";
@@ -85,7 +85,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
             'client_secret'      => self::CLIENTSECRET,
             'success_url'        => self::SUCCESSURL,
             'fail_url'           => self::FAILURL,
-            'call_back_url'      => self::CALLBACKURL,
+            'callback_url'      => self::CALLBACKURL,
             'logger'             => self::LOGGER,
             'currency'           => self::CURRENCY,
             'allowed_currencies' => self::ALLOWED_CURRENCIES,

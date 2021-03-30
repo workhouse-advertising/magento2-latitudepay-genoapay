@@ -53,9 +53,9 @@
                     <label>Fail URL</label>
                     <config_path>payment/latitudepay/fail_url</config_path>
                 </field>
-                <field id="call_back_url" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="callback_url" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Callback URL</label>
-                    <config_path>payment/latitudepay/call_back_url</config_path>
+                    <config_path>payment/latitudepay/callback_url</config_path>
                 </field>
                 <field id="logging" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Logging</label>
@@ -136,9 +136,9 @@
                     <label>Fail URL</label>
                     <config_path>payment/genoapay/fail_url</config_path>
                 </field>
-                <field id="call_back_url" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="callback_url" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Callback URL</label>
-                    <config_path>payment/genoapay/call_back_url</config_path>
+                    <config_path>payment/genoapay/callback_url</config_path>
                 </field>
                 <field id="logging" translate="label" type="select" sortOrder="24" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Logging</label>

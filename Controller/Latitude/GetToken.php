@@ -118,7 +118,7 @@ class GetToken extends AbstractLatitude
 
         $successUrl  =($this->configHelper->getConfigData('success_url') ?$this->_url->getUrl($this->configHelper->getConfigData('success_url')) : $this->_url->getUrl('latitude/latitude/placeorder'));
         $cancelUrl   =($this->configHelper->getConfigData('fail_url') ?$this->_url->getUrl($this->configHelper->getConfigData('fail_url')) : $this->_url->getUrl('latitude/latitude/cancel'));
-        $callbackUrl =($this->configHelper->getConfigData('call_back_url') ? $this->_url->getUrl($this->configHelper->getConfigData('call_back_url')) : $this->_url->getUrl('latitude/latitude/fail'));
+        $callbackUrl =($this->configHelper->getConfigData('callback_url') ? $this->_url->getUrl($this->configHelper->getConfigData('callback_url')) : $this->_url->getUrl('latitude/latitude/fail'));
 
         // Latitude urls
         $this->checkout->prepareLatitudeUrls(

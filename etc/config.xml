@@ -27,7 +27,7 @@
                 <can_refund>1</can_refund>
                 <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
                 <success_url>latitude/latitude/placeorder</success_url>
-                <call_back_url>latitude/latitude/cancel</call_back_url>
+                <callback_url>latitude/latitude/callback</callback_url>
                 <fail_url>latitude/latitude/fail</fail_url>
                 <model>Latitude\Payment\Model\Payment\Latitude</model>
                 <static_block_pdp>latitudepay-popup-content</static_block_pdp>
@@ -51,7 +51,7 @@
                 <can_refund>1</can_refund>
                 <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
                 <success_url>latitude/latitude/placeorder</success_url>
-                <call_back_url>latitude/latitude/cancel</call_back_url>
+                <callback_url>latitude/latitude/callback</callback_url>
                 <fail_url>latitude/latitude/fail</fail_url>
                 <model>Latitude\Payment\Model\Payment\Genoapay</model>
                 <static_block_pdp>genoapay-popup-content</static_block_pdp>

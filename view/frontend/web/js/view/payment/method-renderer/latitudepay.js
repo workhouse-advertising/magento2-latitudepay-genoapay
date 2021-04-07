@@ -41,7 +41,7 @@ define(
                 currency        = window.checkoutConfig.latitudepayments.currency_symbol,
                 grandTotal      = totals.getSegment('grand_total').value,
                 html            = window.checkoutConfig.latitudepayments.lpay_installment_block;
-                if(grandTotal){
+                if(grandTotal && html){
                     var amountPerInstallment = grandTotal / curInstallment;
                     installmentText = html.replace(/%s/g,currency + Math.floor(amountPerInstallment * 100) / 100);
                 }

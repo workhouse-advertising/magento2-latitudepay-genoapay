@@ -27,12 +27,13 @@
                 <can_refund>1</can_refund>
                 <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
                 <success_url>latitude/latitude/placeorder</success_url>
-                <call_back_url>latitude/latitude/cancel</call_back_url>
+                <callback_url>latitude/latitude/callback</callback_url>
                 <fail_url>latitude/latitude/fail</fail_url>
                 <model>Latitude\Payment\Model\Payment\Latitude</model>
                 <static_block_pdp>latitudepay-popup-content</static_block_pdp>
                 <api_url_production>https://api.latitudepay.com/v3</api_url_production>
                 <api_url_sandbox>https://api.uat.latitudepay.com/v3</api_url_sandbox>
+                <show_in_mobile>1</show_in_mobile>
             </latitudepay>
             <genoapay>
                 <active>1</active>
@@ -50,12 +51,13 @@
                 <can_refund>1</can_refund>
                 <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
                 <success_url>latitude/latitude/placeorder</success_url>
-                <call_back_url>latitude/latitude/cancel</call_back_url>
+                <callback_url>latitude/latitude/callback</callback_url>
                 <fail_url>latitude/latitude/fail</fail_url>
                 <model>Latitude\Payment\Model\Payment\Genoapay</model>
                 <static_block_pdp>genoapay-popup-content</static_block_pdp>
                 <api_url_production>https://api.genoapay.com/v3</api_url_production>
                 <api_url_sandbox>https://api.uat.genoapay.com/v3</api_url_sandbox>
+                <show_in_mobile>1</show_in_mobile>
             </genoapay>
         </payment>
     </default>

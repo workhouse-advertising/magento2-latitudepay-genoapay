@@ -9,20 +9,25 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
-    <system>
-        <section id="payment">
-            <group id="latitude_section" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+<system>
+    <section id="payment">
+        <group id="latitude_section" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>LatitudePay/GenoaPay</label>
 
             <group id="latitude" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label><![CDATA[<div class="lattitude-payment-logo"></div><div class="lattitude-payment-byline">Use LatitudePay to spread the cost of your purchases over 10 weeks.</div>]]></label>
-            <fieldset_css>complex lattitude-payment-section</fieldset_css>
-            <frontend_model>Latitude\Payment\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                <fieldset_css>complex lattitude-payment-section</fieldset_css>
+                <frontend_model>Latitude\Payment\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
                 <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" sortOrder="1"
                        showInStore="1">
                     <label>Enabled</label>
                     <config_path>payment/latitudepay/enabled</config_path>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sort Order</label>
+                    <config_path>payment/latitudepay/sort_order</config_path>
+                    <frontend_class>validate-number</frontend_class>
                 </field>
                 <field id="show_in_mobile" translate="label" type="select" showInDefault="1" showInWebsite="1" sortOrder="2"
                        showInStore="1">
@@ -36,12 +41,12 @@
                     <config_path>payment/latitudepay/environment</config_path>
                 </field>
                 <field id="client_key" translate="label" type="obscure" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
-                   <label>Client Key</label>
+                    <label>Client Key</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <config_path>payment/latitudepay/client_key</config_path>
                 </field>
                 <field id="client_secret" translate="label" type="obscure" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
-                     <label>Client Secret</label>
+                    <label>Client Secret</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <config_path>payment/latitudepay/client_secret</config_path>
                 </field>
@@ -53,9 +58,9 @@
                     <label>Fail URL</label>
                     <config_path>payment/latitudepay/fail_url</config_path>
                 </field>
-                <field id="call_back_url" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="callback_url" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Callback URL</label>
-                    <config_path>payment/latitudepay/call_back_url</config_path>
+                    <config_path>payment/latitudepay/callback_url</config_path>
                 </field>
                 <field id="logging" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Logging</label>
@@ -101,11 +106,16 @@
                 <label><![CDATA[<div class="genoapay-payment-logo"></div><div class="genoapay-payment-byline">Pay with Genoapay at partnered stores over 10 weekly payments with no interest.</div>]]></label>
                 <fieldset_css>complex genoapay-payment-section</fieldset_css>
                 <frontend_model>Latitude\Payment\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
-                <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" sortOrder="15"
+                <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" sortOrder="10"
                        showInStore="1">
                     <label>Enabled</label>
                     <config_path>payment/genoapay/enabled</config_path>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sort Order</label>
+                    <config_path>payment/genoapay/sort_order</config_path>
+                    <frontend_class>validate-number</frontend_class>
                 </field>
                 <field id="show_in_mobile" translate="label" type="select" showInDefault="1" showInWebsite="1" sortOrder="16"
                        showInStore="1">
@@ -136,9 +146,9 @@
                     <label>Fail URL</label>
                     <config_path>payment/genoapay/fail_url</config_path>
                 </field>
-                <field id="call_back_url" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="callback_url" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Callback URL</label>
-                    <config_path>payment/genoapay/call_back_url</config_path>
+                    <config_path>payment/genoapay/callback_url</config_path>
                 </field>
                 <field id="logging" translate="label" type="select" sortOrder="24" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Logging</label>
@@ -146,12 +156,12 @@
                     <comment>Toggle logging to latitude_payment.log</comment>
                     <config_path>payment/genoapay/logging</config_path>
                 </field>
-              <!--  <field id="currency" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Currency Code</label>
-                    <source_model>Magento\Config\Model\Config\Source\Locale\Currency</source_model>
-                    <backend_model>Magento\Config\Model\Config\Backend\Currency\DefaultCurrency</backend_model>
-                    <config_path>payment/genoapay/currency</config_path>
-                </field>-->
+                <!--  <field id="currency" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                      <label>Currency Code</label>
+                      <source_model>Magento\Config\Model\Config\Source\Locale\Currency</source_model>
+                      <backend_model>Magento\Config\Model\Config\Backend\Currency\DefaultCurrency</backend_model>
+                      <config_path>payment/genoapay/currency</config_path>
+                  </field>-->
                 <!--  <field id="allowed_currencies" translate="label" type="multiselect" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                       <label>Allowed Currencies</label>
                       <source_model>Magento\Config\Model\Config\Source\Locale\Currency</source_model>
@@ -186,8 +196,8 @@
                     <source_model>Latitude\Payment\Model\Config\Source\Block</source_model>
                     <config_path>payment/genoapay/static_block_plp</config_path>
                 </field>
-             </group>
             </group>
-        </section>
-    </system>
+        </group>
+    </section>
+</system>
 </config>

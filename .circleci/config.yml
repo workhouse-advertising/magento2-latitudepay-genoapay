@@ -189,8 +189,6 @@ jobs:
           - MYSQL_USER=magento2
           - MYSQL_PASSWORD=magento2
           - MYSQL_DB_HOST=127.0.0.1
-          - ES_HOST=127.0.0.1
-          - ES_PORT=9200
           - BASE_URL=magento2.localhost
           - INSTALL_SAMPLE_DATA=false
           - MAGENTO_ADMIN_FRONTNAME=admin
@@ -217,7 +215,6 @@ jobs:
           - MYSQL_DATABASE=magento2
           - MYSQL_USER=magento2
           - MYSQL_PASSWORD=magento2
-      - image: magento/magento-cloud-docker-elasticsearch:6.8-1.2.4
     working_directory: /var/www/html/app/code/Latitude/Payment
     steps:
       - setup:

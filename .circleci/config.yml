@@ -3,7 +3,7 @@ commands: # a reusable command with parameters
   setup:
     parameters:
       version:
-        default: "7.4"
+        default: "php73-m237"
         type: string
     steps:
       - checkout
@@ -123,16 +123,67 @@ commands: # a reusable command with parameters
       - store_artifacts:
           path: /var/www/html/dev/tests/acceptance/tests/_output/allure-report
 jobs:
-  php73-build:
+  deploy:
     docker:
-      - image: registry.gitlab.com/magebinary/docker-opensource-ecommerce:magento-2.4.2-php-7.3
+      - image: circleci/php:latest-node-browsers-legacy
+        environment:
+          - SSH_REMOTE_SERVER_USER=$SSH_REMOTE_SERVER_USER
+          - SSH_REMOTE_SERVER_IP=$SSH_REMOTE_SERVER_IP
+          - SSH_REMOTE_SERVER_HOST=$SSH_REMOTE_SERVER_HOST
+          - SSH_REMOTE_SERVER_ROOT=$SSH_REMOTE_SERVER_ROOT
+    working_directory: ~/latitude
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "SSH Fingerprint from CircleCI Project Settings > SSH Permissions"
+      - checkout
+      - run:
+          name: Build the plugin
+          command: |
+            mkdir -p /tmp/artifacts
+            mkdir -p build/
+            zip -r woocommerce-latitudepay-genoapay.zip build/
+            cp -a build/*.zip /tmp/artifacts
+      - run:
+          name: Deploy the plugin
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              ./bin/deploy.sh live
+            else
+              ./bin/deploy.sh --dry-run
+            fi
+      - store_artifacts:
+          path: /tmp/artifacts
+  github-release:
+    docker:
+      - image: circleci/php:latest-node-browsers-legacy
+        environment:
+          - GITHUB_TOKEN=$GITHUB_TOKEN
+          - GITHUB_APP_NAME=$GITHUB_APP_NAME
+          - GITHUB_USER=$GITHUB_USER
+    working_directory: ~/latitude
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "SSH Fingerprint from CircleCI Project Settings > SSH Permissions"
+      - checkout
+      - run:
+          name: Tag new release
+          command: |
+            cd ~/latitude
+            cd bin/
+            chmod +x git_release.sh
+            ./git_release.sh
+  php73-m237:
+    docker:
+      - image: registry.gitlab.com/magebinary/docker-opensource-ecommerce:magento-2.3.7-php-7.3
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
         environment:
           - MYSQL_ROOT_HOST=%
           - PLATFORM=magento2
-          - PLATFORM_VERSION=2.4.2
+          - PLATFORM_VERSION=2.3.7
           - MYSQL_ROOT_PASSWORD=magento2
           - MYSQL_DATABASE=magento2
           - MYSQL_USER=magento2
@@ -166,16 +217,16 @@ jobs:
           - MYSQL_DATABASE=magento2
           - MYSQL_USER=magento2
           - MYSQL_PASSWORD=magento2
-      - image: magento/magento-cloud-docker-elasticsearch:7.9-1.2.2
+      - image: magento/magento-cloud-docker-elasticsearch:6.8-1.2.4
     working_directory: /var/www/html/app/code/Latitude/Payment
     steps:
       - setup:
-          version: "7.3"
+          version: "php73-m237"
       - cs-tests
       - lp-tests
       - m2-tests
       - artifacts
-  php74-build:
+  php74-m242:
     docker:
       - image: registry.gitlab.com/magebinary/docker-opensource-ecommerce:magento-2.4.2-php-7.4
         auth:
@@ -222,7 +273,7 @@ jobs:
     working_directory: /var/www/html/app/code/Latitude/Payment
     steps:
       - setup:
-          version: "7.4"
+          version: "php74-m242"
       - cs-tests
       - lp-tests
       - m2-tests
@@ -231,5 +282,19 @@ workflows:
   version: 2
   main:
     jobs:
-      - php73-build
-      - php74-build
+      - php73-m237
+      - php74-m242
+      - github-release:
+          requires:
+            - php73-m237
+            - php74-m242
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - php73-m237
+            - php74-m242
+          filters:
+            branches:
+              only: staging

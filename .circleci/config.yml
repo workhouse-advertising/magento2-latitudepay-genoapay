@@ -96,7 +96,10 @@ commands: # a reusable command with parameters
           name: "Magento Default Unit Testing"
           command: |
             cd /var/www/html
-            vendor/bin/phpunit -c dev/tests/unit/phpunit.xml.dist --testdox
+            vendor/bin/phpunit -c dev/tests/unit/phpunit.xml.dist app/code/Magento/Catalog/Test/Unit/ --testdox
+            vendor/bin/phpunit -c dev/tests/unit/phpunit.xml.dist app/code/Magento/Customer/Test/Unit/ --testdox
+            vendor/bin/phpunit -c dev/tests/unit/phpunit.xml.dist app/code/Magento/Checkout/Test/Unit/ --testdox
+            vendor/bin/phpunit -c dev/tests/unit/phpunit.xml.dist app/code/Magento/Payment/Test/Unit/ --testdox
   lp-tests:
     steps:
       - run:

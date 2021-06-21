@@ -3,7 +3,7 @@ commands: # a reusable command with parameters
   setup:
     parameters:
       version:
-        default: "php73-m237"
+        default: "php74-m237"
         type: string
     steps:
       - checkout
@@ -174,9 +174,9 @@ jobs:
             cd bin/
             chmod +x git_release.sh
             ./git_release.sh
-  php73-m237:
+  php74-m237:
     docker:
-      - image: registry.gitlab.com/magebinary/docker-opensource-ecommerce:magento-2.3.7-php-7.3
+      - image: registry.gitlab.com/magebinary/docker-opensource-ecommerce:magento-2.3.7-php-7.4
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
@@ -219,7 +219,60 @@ jobs:
     working_directory: /var/www/html/app/code/Latitude/Payment
     steps:
       - setup:
-          version: "php73-m237"
+          version: "php74-m237"
+      - cs-tests
+      - lp-tests
+      - m2-tests
+      - artifacts
+  php73-m242:
+    docker:
+      - image: registry.gitlab.com/magebinary/docker-opensource-ecommerce:magento-2.4.2-php-7.3
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASSWORD
+        environment:
+          - MYSQL_ROOT_HOST=%
+          - PLATFORM=magento2
+          - PLATFORM_VERSION=2.4.2
+          - MYSQL_ROOT_PASSWORD=magento2
+          - MYSQL_DATABASE=magento2
+          - MYSQL_USER=magento2
+          - MYSQL_PASSWORD=magento2
+          - MYSQL_DB_HOST=127.0.0.1
+          - ES_HOST=127.0.0.1
+          - ES_PORT=9200
+          - BASE_URL=magento2.localhost
+          - INSTALL_SAMPLE_DATA=false
+          - SEARCH_ENGINE=elasticsearch7
+          - MAGENTO_ADMIN_FRONTNAME=admin
+          - MAGENTO_ADMIN_FIRST_NAME=Admin
+          - MAGENTO_ADMIN_LAST_NAME=Developer
+          - MAGENTO_ADMIN_EMAIL=dev@magebinary.com
+          - MAGENTO_ADMIN_USER=admin
+          - MAGENTO_ADMIN_PASSWORD=admin123
+          - MAGENTO_LOCALE=en_AU
+          - MAGENTO_CURRENCY=AUD
+          - MAGENTO_TIMEZONE=Pacific/Auckland
+          - LATITUDE_API_PUBLIC_KEY=$LATITUDE_API_PUBLIC_KEY
+          - LATITUDE_API_PRIVATE_KEY=$LATITUDE_API_PRIVATE_KEY
+          - LATITUDE_USER_EMAIL=$LATITUDE_USER_EMAIL
+          - LATITUDE_USER_PASSWORD=$LATITUDE_USER_PASSWORD
+          - GENOAPAY_API_PUBLIC_KEY=$GENOAPAY_API_PUBLIC_KEY
+          - GENOAPAY_API_PRIVATE_KEY=$GENOAPAY_API_PRIVATE_KEY
+          - GENOAPAY_USER_EMAIL=$GENOAPAY_USER_EMAIL
+          - GENOAPAY_USER_PASSWORD=$GENOAPAY_USER_PASSWORD
+      - image: circleci/mysql:5.7
+        environment:
+          - MYSQL_ROOT_HOST=%
+          - MYSQL_ROOT_PASSWORD=magento2
+          - MYSQL_DATABASE=magento2
+          - MYSQL_USER=magento2
+          - MYSQL_PASSWORD=magento2
+      - image: magento/magento-cloud-docker-elasticsearch:7.9-1.2.2
+    working_directory: /var/www/html/app/code/Latitude/Payment
+    steps:
+      - setup:
+          version: "php74-m242"
       - cs-tests
       - lp-tests
       - m2-tests
@@ -281,18 +334,18 @@ workflows:
   version: 2
   main:
     jobs:
-      - php73-m237
+      - php74-m237
       - php74-m242
       - github-release:
           requires:
-            - php73-m237
+            - php74-m237
             - php74-m242
           filters:
             branches:
               only: master
       - deploy:
           requires:
-            - php73-m237
+            - php74-m237
             - php74-m242
           filters:
             branches:

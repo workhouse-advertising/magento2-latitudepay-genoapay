@@ -243,6 +243,7 @@ jobs:
           - ES_PORT=9200
           - BASE_URL=magento2.localhost
           - INSTALL_SAMPLE_DATA=false
+          - SEARCH_ENGINE=elasticsearch7
           - MAGENTO_ADMIN_FRONTNAME=admin
           - MAGENTO_ADMIN_FIRST_NAME=Admin
           - MAGENTO_ADMIN_LAST_NAME=Developer

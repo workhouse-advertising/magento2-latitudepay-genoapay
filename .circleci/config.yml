@@ -92,13 +92,11 @@ commands: # a reusable command with parameters
             cd /var/www/html
             vendor/bin/mftf run:test StorefrontCustomerCheckoutTest -r
             vendor/bin/mftf run:test StorefrontGuestCheckoutTest -r
-            allure generate dev/tests/acceptance/tests/_output/ -o dev/tests/acceptance/tests/_output/allure-report
       - run:
           name: "Magento Default Unit Testing"
           command: |
             cd /var/www/html
             vendor/bin/phpunit -c dev/tests/unit/phpunit.xml.dist --testdox
-            allure generate dev/tests/acceptance/tests/_output/ -o dev/tests/acceptance/tests/_output/allure-report
   lp-tests:
     steps:
       - run:
@@ -111,9 +109,12 @@ commands: # a reusable command with parameters
           command: |
             cd /var/www/html
             vendor/bin/phpunit -c dev/tests/unit/phpunit.xml.dist app/code/Latitude/Payment/Test/Unit/ --testdox
-            allure generate dev/tests/acceptance/tests/_output/ -o dev/tests/acceptance/tests/_output/allure-report
   artifacts:
     steps:
+      - run:
+          name: "Generate Allure Report"
+          command: |
+            allure generate dev/tests/acceptance/tests/_output/ --clean -o dev/tests/acceptance/tests/_output/allure-report
       - store_test_results:
           path: /var/www/html/dev/tests/acceptance/tests/_output/allure-report
       - store_artifacts:

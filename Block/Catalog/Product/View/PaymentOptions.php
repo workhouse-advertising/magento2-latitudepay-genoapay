@@ -39,6 +39,8 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
     protected $configHelper;
 
     const INSTALLMENT_NO = 10;
+    const IMAGE_API_URL= 'https://images.latitudepayapps.com/v2/snippet.svg';
+
     /**
      * PaymentOptions constructor.
      * @param Context $context
@@ -77,9 +79,8 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
      * @return string
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getInstallmentAmount()
+    public function getAmount()
     {
-        $curInstallment = 10;
         $amountPerInstallment ='';
         $totalAmount = $this->getCurrentProduct()->getFinalPrice();
         $InstallmentNo = $this->configHelper->getConfigData('installment_no');
@@ -87,9 +88,9 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
             $curInstallment = $InstallmentNo;
         }
         if($curInstallment){
-            $amountPerInstallment = $totalAmount / $curInstallment;
+            $amountPerInstallment = $totalAmount;
         }
-        return $this->priceCurrency->convertAndFormat($amountPerInstallment);
+        return $amountPerInstallment;
     }
 
     /**
@@ -113,4 +114,28 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
         return $this->configHelper->getConfigData('show_in_mobile',null, $methodCode);
     }
 
+    /**
+     * Retrieve Snippet Image
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return \Magento\Framework\Phrase
+     */
+    public function getSnippetImage()
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $param = [
+            'amount' => $this->getAmount(),
+            'services' => $this->configHelper->getLatitudepayPaymentServices(),
+            'terms' => $this->configHelper->getLatitudepayPaymentTerms(),
+            'style' => 'default'
+        ];
+        return self::IMAGE_API_URL . '?' . http_build_query($param);
+    }
+
+    public function _toHtml()
+    {
+        if($this->configHelper->isLatitudepayEnabled() || $this->configHelper->isGenoapayEnabled()){
+            return parent::_toHtml();
+        }
+        return '';
+    }
 }

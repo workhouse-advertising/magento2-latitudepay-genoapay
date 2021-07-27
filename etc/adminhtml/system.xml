@@ -27,6 +27,25 @@
                         <config_path>payment/latitudepay/enabled</config_path>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     </field>
+                    <field id="payment_services" translate="label" type="select" showInDefault="1" showInWebsite="1"
+                           sortOrder="1"
+                           showInStore="1">
+                        <label>Which Payment Options do you want to offer?</label>
+                        <config_path>payment/latitudepay/payment_services</config_path>
+                        <source_model>Latitude\Payment\Model\Config\Source\Service</source_model>
+                        <comment><![CDATA[LatitudePay (Enable this option if you want to offer just LatitudePay)<br/>LatitudePay+ (Enable this option if you want to offer just LatitudePay+)<br/>Co-Presentment (Enable this option if you want to offer both LatitudePay & LatitudePay+)]]></comment>
+                    </field>
+                    <field id="payment_terms" translate="label" type="multiselect" showInDefault="1" showInWebsite="1"
+                           sortOrder="1"
+                           showInStore="1">
+                        <label>Payment Terms</label>
+                        <config_path>payment/latitudepay/payment_terms</config_path>
+                        <depends>
+                            <field id="payment_services" separator="|">LPAYPLUS|LPAY,LPAYPLUS</field>
+                        </depends>
+                        <source_model>Latitude\Payment\Model\Config\Source\Term</source_model>
+                        <comment><![CDATA[Please select the amount of months that the payment will be split into.]]></comment>
+                    </field>
                     <field id="sort_order" translate="label" type="text" sortOrder="2" showInDefault="1"
                            showInWebsite="1" showInStore="1">
                         <label>Sort Order</label>

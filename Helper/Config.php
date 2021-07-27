@@ -31,6 +31,8 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     CONST GENOAPAY_ENABLED   = "payment/genoapay/enabled";
     CONST LATITUDE_CURRENCY  = "payment/latitudepay/currency";
     CONST GENOAPAY_CURRENCY  = "payment/genoapay/currency";
+    CONST LATITUDE_PAYMENT_SERVICES  = "payment/latitudepay/payment_services";
+    CONST LATITUDE_PAYMENT_TERMS  = "payment/latitudepay/payment_terms";
 
     /**
      * Configuration value of whether to display billing address on payment method or payment page
@@ -195,4 +197,38 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         }
     }
 
+    /**
+     * Get Latitudepay Payment Services
+     *
+     * @param null $store
+     * @return mixed
+     */
+    public function getLatitudepayPaymentServices($store = null)
+    {
+        if($this->isGenoapayEnabled()){
+            return 'GPAY';
+        }
+
+        if($this->isLatitudepayEnabled()){
+            if($this->scopeConfig->getValue(self::LATITUDE_PAYMENT_SERVICES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store)){
+                return $this->scopeConfig->getValue(self::LATITUDE_PAYMENT_SERVICES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+            }
+            return 'LPAY';
+        }
+        return '';
+    }
+
+    /**
+     * Get Latitudepay Payment Terms
+     *
+     * @param null $store
+     * @return mixed
+     */
+    public function getLatitudepayPaymentTerms($store = null)
+    {
+        if($this->isLatitudepayEnabled()){
+            return $this->scopeConfig->getValue(self::LATITUDE_PAYMENT_TERMS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        }
+        return null;
+    }
 }

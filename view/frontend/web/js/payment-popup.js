@@ -1,52 +1,23 @@
 define(['jquery','Magento_Ui/js/modal/modal'],function($,modal) {
     'use strict';
     return function(config, element) {
-
-        var lpayOptions = {
-            type: 'popup',
-            responsive: true,
-            innerScroll: false,
-            modalClass: 'lp-modal-popup',
-            keepScrollPosition : true,
-            opened: function() {
-
-
-            },
-            closed: function() {
-
-            },
-            buttons: []
-        };
-        var gpayOptions = {
-            type: 'popup',
-            responsive: true,
-            innerScroll: false,
-            modalClass: 'gp-modal-popup',
-            keepScrollPosition : true,
-            opened: function() {
-
-
-            },
-            closed: function() {
-
-            },
-            buttons: []
-        };
         function initPaymentOptionPopup () {
-            $("#open-lpay-popup, .latitude-icon .text-learnmore").on('click',function(e){
-                e.stopPropagation();
-                $('#lpay-model-popup').show();
-                var popupdata = $('<div />').append($('#lpay-model-popup'));
-                modal(lpayOptions,popupdata);
-                popupdata.modal("openModal");
-            });
-            $("#open-genoapay-popup, .genoapay-icon .text-learnmore").on('click',function(e){
-                e.stopPropagation();
-                $('#gpay-model-popup').show();
-                var popupdata = $('<div  style="height: 100%"/>').append($('#gpay-model-popup'));
-                modal(gpayOptions,popupdata);
-                popupdata.modal("openModal");
-            });
+            var e = document.querySelectorAll("img[src*='https://images.latitudepayapps.com/v2/snippet.svg'], img[src*='https://images.latitudepayapps.com/v2/api/banner'], img[src*='https://images.latitudepayapps.com/v2/LatitudePayPlusSnippet.svg']");
+            [].forEach.call(
+                e, function (e) {
+                    e.style.cursor = "pointer",
+                        e.addEventListener("click", handleClick)
+                })
+            function handleClick(e) {
+                if (0 == document.getElementsByClassName("lpay-modal-wrapper").length) {
+                    var t = new XMLHttpRequest;
+                    t.onreadystatechange = function () {
+                        4 == t.readyState && 200 == t.status && null != t.responseText && (document.body.insertAdjacentHTML("beforeend", t.responseText))
+                    },
+                        t.open("GET", e.srcElement.currentSrc.replace('snippet.svg','modal.html'), !0),
+                        t.send(null)
+                } else document.querySelector(".lpay-modal-wrapper").style.display = "block"
+            }
         }
 
         $(document).ready(function () {
@@ -54,7 +25,6 @@ define(['jquery','Magento_Ui/js/modal/modal'],function($,modal) {
         });
         return {
             initPaymentOptionPopup: initPaymentOptionPopup
-
         }
     }
 });

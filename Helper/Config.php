@@ -25,8 +25,6 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     CONST ALLOWED_SPECIFIC   = "allowspecific";
     CONST SPECIFIC_COUNTRY   = "specificcountry";
     CONST INSTALLMENT_NO     = "installment_no";
-    CONST STATICBLOCK_PDP    = "static_block_pdp";
-    CONST STATICBLOCK_PLP    = "static_block_plp";
     CONST LATITUDE_ENABLED   = "payment/latitudepay/enabled";
     CONST GENOAPAY_ENABLED   = "payment/genoapay/enabled";
     CONST LATITUDE_CURRENCY  = "payment/latitudepay/currency";
@@ -94,8 +92,6 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
             'allowspecific'      => self::ALLOWED_SPECIFIC,
             'specificcountry'    => self::SPECIFIC_COUNTRY,
             'installment_no'     => self::INSTALLMENT_NO,
-            'static_block_pdp'   => self::STATICBLOCK_PDP,
-            'static_block_plp'   => self::STATICBLOCK_PLP
         );
         $this->storeRepository= $storeRepository;
 

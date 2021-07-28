@@ -8,7 +8,7 @@
  * Class PaymentOptions
  * @package Latitude\Payment\Block\Catalog\Product\View\PaymentOptions
  */
-namespace Latitude\Payment\Block\Catalog\Product\View;
+namespace Latitude\Payment\Block\Checkout\Cart;
 
 use \Magento\Catalog\Block\Product\Context;
 /**
@@ -17,63 +17,38 @@ use \Magento\Catalog\Block\Product\Context;
  */
 class PaymentOptions extends \Magento\Framework\View\Element\Template
 {
-    /**
-     * Core registry
-     *
-     * @var \Magento\Framework\Registry
-     */
-    protected $coreRegistry;
-
-    /**
-     *Product model
-     *
-     * @var \Magento\Catalog\Model\Product
-     */
-
-    protected $product;
-    /**
-     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
-     */
-    protected $priceCurrency;
-
-    protected $configHelper;
-
-    const INSTALLMENT_NO = 10;
     const IMAGE_API_URL= 'https://images.latitudepayapps.com/v2/snippet.svg';
+    /**
+     * @var \Magento\Checkout\Model\Cart
+     */
+    protected $cart;
+
+    /**
+     * @var \Latitude\Payment\Helper\Config
+     */
+    protected $configHelper;
 
     /**
      * PaymentOptions constructor.
      * @param Context $context
-     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Checkout\Model\Cart $cart
      * @param \Latitude\Payment\Helper\Config $configHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+        \Magento\Checkout\Model\Cart $cart,
         \Latitude\Payment\Helper\Config $configHelper,
         array $data = []
         ) {
-        $this->coreRegistry  = $context->getRegistry();
-        $this->priceCurrency = $priceCurrency;
+        $this->cart  = $cart;
         $this->configHelper  = $configHelper;
         parent::__construct(
             $context,
             $data
         );
     }
-    /**
-     * @return mixed
-     */
-    public function getCurrentProduct()
-    {
 
-        if($this->product == null) {
-            $this->product = $this->coreRegistry->registry('current_product');
-        }
-        return $this->product;
-
-    }
     /**
      * Gets Installment amount for current product
      * @return string
@@ -81,17 +56,10 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
      */
     public function getAmount()
     {
-        $amountPerInstallment ='';
-        $totalAmount = $this->getCurrentProduct()->getFinalPrice();
-        $InstallmentNo = $this->configHelper->getConfigData('installment_no');
-        if($InstallmentNo){
-            $curInstallment = $InstallmentNo;
-        }
-        if($curInstallment){
-            $amountPerInstallment = $totalAmount;
-        }
-        return $amountPerInstallment;
+        $totalAmount = $this->cart->getQuote()->getSubtotal();
+        return $totalAmount;
     }
+
     /**
      * @throws \Magento\Framework\Exception\LocalizedException
      * @param string $methodCode
@@ -119,6 +87,11 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
         return self::IMAGE_API_URL . '?' . http_build_query($param);
     }
 
+    /**
+     * Retrieve Block Html
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return string
+     */
     public function _toHtml()
     {
         if($this->configHelper->isLatitudepayEnabled() || $this->configHelper->isGenoapayEnabled()){

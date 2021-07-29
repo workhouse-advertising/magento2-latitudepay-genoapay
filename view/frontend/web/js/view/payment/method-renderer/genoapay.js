@@ -60,7 +60,7 @@ define(
                 grandTotal      = totals.getSegment('grand_total').value,
                 html            = window.checkoutConfig.latitudepayments.gpay_installment_block;
                 if(grandTotal){
-                    installmentText = html;
+                    installmentText = html.replace('__AMOUNT__',grandTotal);
                 }
                 return installmentText;
             },

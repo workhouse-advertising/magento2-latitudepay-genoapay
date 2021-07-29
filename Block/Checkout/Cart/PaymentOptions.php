@@ -56,7 +56,7 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
      */
     public function getAmount()
     {
-        $totalAmount = $this->cart->getQuote()->getSubtotal();
+        $totalAmount = $this->cart->getQuote()->getGrandTotal();
         return $totalAmount;
     }
 

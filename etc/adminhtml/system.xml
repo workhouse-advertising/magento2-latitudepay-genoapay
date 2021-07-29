@@ -35,7 +35,7 @@
                         <source_model>Latitude\Payment\Model\Config\Source\Service</source_model>
                         <comment><![CDATA[LatitudePay (Enable this option if you want to offer just LatitudePay)<br/>LatitudePay+ (Enable this option if you want to offer just LatitudePay+)<br/>Co-Presentment (Enable this option if you want to offer both LatitudePay & LatitudePay+)]]></comment>
                     </field>
-                    <field id="payment_terms" translate="label" type="multiselect" showInDefault="1" showInWebsite="1"
+                    <field id="payment_terms" translate="label" type="checkbox" showInDefault="1" showInWebsite="1"
                            sortOrder="1"
                            showInStore="1">
                         <label>Payment Terms</label>
@@ -43,8 +43,9 @@
                         <depends>
                             <field id="payment_services" separator="|">LPAYPLUS|LPAY,LPAYPLUS</field>
                         </depends>
+                        <frontend_model>Latitude\Payment\Block\System\Config\Checkbox</frontend_model>
                         <source_model>Latitude\Payment\Model\Config\Source\Term</source_model>
-                        <comment><![CDATA[Please select the amount of months that the payment will be split into.]]></comment>
+                        <comment><![CDATA[Please select the payment terms you would like to offer your customers.]]></comment>
                     </field>
                     <field id="sort_order" translate="label" type="text" sortOrder="2" showInDefault="1"
                            showInWebsite="1" showInStore="1">

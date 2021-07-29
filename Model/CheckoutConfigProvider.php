@@ -205,7 +205,7 @@ class CheckoutConfigProvider implements ConfigProviderInterface
      */
     public function getAmount()
     {
-        $totalAmount = $this->cart->getQuote()->getSubtotal();
+        $totalAmount = $this->cart->getQuote()->getGrandTotal();
         return $totalAmount;
     }
 
@@ -230,7 +230,7 @@ class CheckoutConfigProvider implements ConfigProviderInterface
     {
         /** @noinspection PhpUndefinedMethodInspection */
         $param = [
-            'amount' => $this->getAmount(),
+            'amount' => '__AMOUNT__',
             'services' => $this->configHelper->getLatitudepayPaymentServices(),
             'terms' => $this->configHelper->getLatitudepayPaymentTerms(),
             'style' => 'checkout'

@@ -121,7 +121,11 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
 
     public function _toHtml()
     {
-        if($this->configHelper->isLatitudepayEnabled() || $this->configHelper->isGenoapayEnabled()){
+        $_product = $this->getCurrentProduct();
+        if(!$_product){
+            return '';
+        }
+        if( $_product->isAvailable() && $_product->isSaleable() && ($this->configHelper->isLatitudepayEnabled() || $this->configHelper->isGenoapayEnabled())){
             return parent::_toHtml();
         }
         return '';

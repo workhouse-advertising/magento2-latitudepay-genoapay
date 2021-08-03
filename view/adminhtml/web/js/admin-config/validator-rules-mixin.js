@@ -9,7 +9,6 @@ define([
         $.validator.addMethod(
             'validate-payment-terms',
             function (value) {
-                console.log(value);
                 if($('#payment_us_latitude_section_latitude_payment_services').val() == 'LPAY'){
                     return true;
                 }

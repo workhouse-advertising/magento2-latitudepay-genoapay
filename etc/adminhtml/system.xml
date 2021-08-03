@@ -46,7 +46,7 @@
                         <frontend_model>Latitude\Payment\Block\System\Config\Checkbox</frontend_model>
                         <source_model>Latitude\Payment\Model\Config\Source\Term</source_model>
                         <backend_model>Latitude\Payment\Model\Config\Backend\Term</backend_model>
-                        <comment><![CDATA[Please select the payment terms you would like to offer your customers.]]></comment>
+                        <comment><![CDATA[Please select the following payment terms you would like to offer your customers.<br/>The following payment terms will be reflected on your Modal.<br/>Please check your merchant contract to confirm the payment terms you have been approved for.]]></comment>
                     </field>
                     <field id="sort_order" translate="label" type="text" sortOrder="2" showInDefault="1"
                            showInWebsite="1" showInStore="1">

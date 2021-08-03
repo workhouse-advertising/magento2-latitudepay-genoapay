@@ -159,9 +159,8 @@ class CheckoutConfigProvider implements ConfigProviderInterface
         ];
 
         foreach ($this->methodCodes as $code) {
-            if ($this->methods[$code]->isAvailable()) {
+            if ($this->methods[$code]->isAvailable($this->cart->getQuote())) {
                 $config['payment']['latitude']['redirectUrl'][$code] = $this->getMethodRedirectUrl($code);
-
             }
         }
         return $config;

@@ -17,7 +17,6 @@ use \Magento\Catalog\Block\Product\Context;
  */
 class PaymentOptions extends \Magento\Framework\View\Element\Template
 {
-    const IMAGE_API_URL= 'https://images.latitudepayapps.com/v2/snippet.svg';
     /**
      * @var \Magento\Checkout\Model\Cart
      */
@@ -84,7 +83,18 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
             'terms' => $this->configHelper->getLatitudepayPaymentTerms(),
             'style' => 'default'
         ];
-        return self::IMAGE_API_URL . '?' . http_build_query($param);
+        return $this->configHelper->getSnippetImageUrl() . '?' . http_build_query($param);
+    }
+
+    /**
+     * Retrieve util js
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return \Magento\Framework\Phrase
+     */
+    public function getUtilJs()
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        return $this->configHelper->getUtilJs();
     }
 
     /**

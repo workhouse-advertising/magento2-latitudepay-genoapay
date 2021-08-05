@@ -39,7 +39,6 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
     protected $configHelper;
 
     const INSTALLMENT_NO = 10;
-    const IMAGE_API_URL= 'https://images.latitudepayapps.com/v2/snippet.svg';
 
     /**
      * PaymentOptions constructor.
@@ -116,7 +115,18 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
             'terms' => $this->configHelper->getLatitudepayPaymentTerms(),
             'style' => 'default'
         ];
-        return self::IMAGE_API_URL . '?' . http_build_query($param);
+        return $this->configHelper->getSnippetImageUrl() . '?' . http_build_query($param);
+    }
+
+    /**
+     * Retrieve util js
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return \Magento\Framework\Phrase
+     */
+    public function getUtilJs()
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        return $this->configHelper->getUtilJs();
     }
 
     public function _toHtml()

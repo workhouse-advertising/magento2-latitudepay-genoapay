@@ -12,7 +12,9 @@ $_helper    = $this->helper('Latitude\Payment\Helper\Config');
 <script type="text/x-magento-init">
     {
         "*": {
-            "paymentOptionPopup": {}
+            "paymentOptionPopup": {
+                "utilJs" : "<?= $block->getUtilJs();?>"
+            }
         }
     }
 

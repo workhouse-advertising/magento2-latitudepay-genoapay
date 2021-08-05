@@ -19,7 +19,7 @@ class CheckoutConfigProvider implements ConfigProviderInterface
     const CURRENCY_SYMBOL = 'currency_symbol';
     const LATITUDEPAY_INSTALLMENT_BLOCK = 'lpay_installment_block';
     const GENOAPAY_INSTALLMENT_BLOCK    = 'gpay_installment_block';
-    const IMAGE_API_URL= 'https://images.latitudepayapps.com/v2/snippet.svg';
+    const UTIL_JS = 'utilJs';
 
     /**
      * Latitudepay/Genoapay Checkout
@@ -153,6 +153,7 @@ class CheckoutConfigProvider implements ConfigProviderInterface
                 self::GENOAPAY => $this->getViewFileUrl('Latitude_Payment::images/genoapay_logo_header.svg'),
                 self::INSTALLMENTNO => $this->getInstallmentNo(),
                 self::CURRENCY_SYMBOL => $this->currency->getCurrencySymbol(),
+                self::UTIL_JS => $this->configHelper->getUtilJs(),
                 self::LATITUDEPAY_INSTALLMENT_BLOCK => '<img class="lpay_snippet" src="'.$this->getSnippetImage().'" alt="LatitudePay" style="cursor: pointer;">',
                 self::GENOAPAY_INSTALLMENT_BLOCK    => '<img class="lpay_snippet" src="'.$this->getSnippetImage().'" alt="GenoaPay" style="cursor: pointer;">',
             ],
@@ -234,7 +235,7 @@ class CheckoutConfigProvider implements ConfigProviderInterface
             'terms' => $this->configHelper->getLatitudepayPaymentTerms(),
             'style' => 'checkout'
         ];
-        return self::IMAGE_API_URL . '?' . http_build_query($param);
+        return $this->configHelper->getSnippetImageUrl() . '?' . http_build_query($param);
     }
 }
 

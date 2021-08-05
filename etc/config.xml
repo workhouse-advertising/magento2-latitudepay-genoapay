@@ -23,6 +23,7 @@
                 <allowspecific>1</allowspecific>
                 <specificcountry>AU</specificcountry>
                 <installment_no>10</installment_no>
+                <image_api_url>https://images.latitudepayapps.com/v2</image_api_url>
                 <can_capture>1</can_capture>
                 <can_refund>1</can_refund>
                 <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
@@ -47,6 +48,7 @@
                 <allowspecific>1</allowspecific>
                 <specificcountry>NZ</specificcountry>
                 <installment_no>10</installment_no>
+                <image_api_url>https://images.latitudepayapps.com/v2</image_api_url>
                 <can_capture>1</can_capture>
                 <can_refund>1</can_refund>
                 <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>

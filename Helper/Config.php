@@ -31,6 +31,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     CONST GENOAPAY_CURRENCY  = "payment/genoapay/currency";
     CONST LATITUDE_PAYMENT_SERVICES  = "payment/latitudepay/payment_services";
     CONST LATITUDE_PAYMENT_TERMS  = "payment/latitudepay/payment_terms";
+    CONST LATITUDE_IMAGE_API_URL = "payment/latitudepay/image_api_url";
 
     /**
      * Configuration value of whether to display billing address on payment method or payment page
@@ -226,5 +227,38 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
             return $this->scopeConfig->getValue(self::LATITUDE_PAYMENT_TERMS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
         }
         return null;
+    }
+
+    /**
+     * Get Image API URL.
+     *
+     * @param null $store
+     * @return mixed
+     */
+    public function getImageApiUrl($store = null)
+    {
+        return $this->scopeConfig->getValue(self::LATITUDE_IMAGE_API_URL, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+    }
+
+    /**
+     * Retrieve util js
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return \Magento\Framework\Phrase
+     */
+    public function getUtilJs()
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        return $this->getImageApiUrl().'/util.js';
+    }
+
+    /**
+     * Retrieve snippet image url
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return \Magento\Framework\Phrase
+     */
+    public function getSnippetImageUrl()
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        return $this->getImageApiUrl().'/snippet.svg';
     }
 }

@@ -120,6 +120,11 @@
                         <label>No. of Installments</label>
                         <config_path>payment/latitudepay/installment_no</config_path>
                     </field>
+                    <field id="image_api_url" translate="label" type="text" sortOrder="12" showInDefault="1"
+                           showInWebsite="1" showInStore="0">
+                        <label>Image API URL</label>
+                        <config_path>payment/latitudepay/image_api_url</config_path>
+                    </field>
                 </group>
                 <group id="genoapay" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1"
                        showInStore="1">
@@ -203,6 +208,11 @@
                            showInWebsite="1" showInStore="0">
                         <label>No. of Installments</label>
                         <config_path>payment/genoapay/installment_no</config_path>
+                    </field>
+                    <field id="image_api_url" translate="label" type="text" sortOrder="12" showInDefault="1"
+                           showInWebsite="1" showInStore="0">
+                        <label>Image API URL</label>
+                        <config_path>payment/genoapay/image_api_url</config_path>
                     </field>
                 </group>
             </group>

@@ -25,12 +25,13 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     CONST ALLOWED_SPECIFIC   = "allowspecific";
     CONST SPECIFIC_COUNTRY   = "specificcountry";
     CONST INSTALLMENT_NO     = "installment_no";
-    CONST STATICBLOCK_PDP    = "static_block_pdp";
-    CONST STATICBLOCK_PLP    = "static_block_plp";
     CONST LATITUDE_ENABLED   = "payment/latitudepay/enabled";
     CONST GENOAPAY_ENABLED   = "payment/genoapay/enabled";
     CONST LATITUDE_CURRENCY  = "payment/latitudepay/currency";
     CONST GENOAPAY_CURRENCY  = "payment/genoapay/currency";
+    CONST LATITUDE_PAYMENT_SERVICES  = "payment/latitudepay/payment_services";
+    CONST LATITUDE_PAYMENT_TERMS  = "payment/latitudepay/payment_terms";
+    CONST LATITUDE_IMAGE_API_URL = "payment/latitudepay/image_api_url";
 
     /**
      * Configuration value of whether to display billing address on payment method or payment page
@@ -92,8 +93,6 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
             'allowspecific'      => self::ALLOWED_SPECIFIC,
             'specificcountry'    => self::SPECIFIC_COUNTRY,
             'installment_no'     => self::INSTALLMENT_NO,
-            'static_block_pdp'   => self::STATICBLOCK_PDP,
-            'static_block_plp'   => self::STATICBLOCK_PLP
         );
         $this->storeRepository= $storeRepository;
 
@@ -195,4 +194,71 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         }
     }
 
+    /**
+     * Get Latitudepay Payment Services
+     *
+     * @param null $store
+     * @return mixed
+     */
+    public function getLatitudepayPaymentServices($store = null)
+    {
+        if($this->isGenoapayEnabled()){
+            return 'GPAY';
+        }
+
+        if($this->isLatitudepayEnabled()){
+            if($this->scopeConfig->getValue(self::LATITUDE_PAYMENT_SERVICES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store)){
+                return $this->scopeConfig->getValue(self::LATITUDE_PAYMENT_SERVICES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+            }
+            return 'LPAY';
+        }
+        return '';
+    }
+
+    /**
+     * Get Latitudepay Payment Terms
+     *
+     * @param null $store
+     * @return mixed
+     */
+    public function getLatitudepayPaymentTerms($store = null)
+    {
+        if($this->isLatitudepayEnabled()){
+            return $this->scopeConfig->getValue(self::LATITUDE_PAYMENT_TERMS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        }
+        return null;
+    }
+
+    /**
+     * Get Image API URL.
+     *
+     * @param null $store
+     * @return mixed
+     */
+    public function getImageApiUrl($store = null)
+    {
+        return $this->scopeConfig->getValue(self::LATITUDE_IMAGE_API_URL, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+    }
+
+    /**
+     * Retrieve util js
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return \Magento\Framework\Phrase
+     */
+    public function getUtilJs()
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        return $this->getImageApiUrl().'/util.js';
+    }
+
+    /**
+     * Retrieve snippet image url
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return \Magento\Framework\Phrase
+     */
+    public function getSnippetImageUrl()
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        return $this->getImageApiUrl().'/snippet.svg';
+    }
 }

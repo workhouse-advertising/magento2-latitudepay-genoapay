@@ -54,7 +54,7 @@ class Checkbox extends \Magento\Config\Block\System\Config\Form\Field
      * @param  $name 
      * @return boolean
      */
-    public function getIsChecked($name)
+    public function isChecked($name)
     {
         return in_array($name, $this->getCheckedValues());
     }

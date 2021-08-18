@@ -25,7 +25,11 @@ define(
                 this._super();
                 var _self = this;
                 _self.PaymentFaileMsg();
+                setTimeout(this.initPopup,4000);
                 return this;
+            },
+            initPopup: function() {
+                $.getScript( window.checkoutConfig.latitudepayments.utilJs, function( data, textStatus, jqxhr ) {});
             },
             /** Returns send check to info */
             getMailingAddress: function() {
@@ -42,8 +46,7 @@ define(
                 grandTotal      = totals.getSegment('grand_total').value,
                 html            = window.checkoutConfig.latitudepayments.lpay_installment_block;
                 if(grandTotal){
-                    var amountPerInstallment = grandTotal / curInstallment;
-                    installmentText = html.replace(/%s/g,currency + Math.floor(amountPerInstallment * 100) / 100);
+                    installmentText = html.replace('__AMOUNT__',grandTotal);
                 }
                 return installmentText;
             },

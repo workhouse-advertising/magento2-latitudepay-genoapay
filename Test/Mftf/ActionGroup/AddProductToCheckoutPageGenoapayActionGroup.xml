@@ -31,6 +31,6 @@
         <click selector="{{CheckoutShippingMethodsSection.next}}" stepKey="clickNext"/>
         <waitForElement selector="{{CheckoutPaymentSection.paymentSectionTitle}}" stepKey="waitForPlaceOrderButton"/>
         <click selector="{{StorefrontGenoapayCheckoutSection.GenoapayPaymentRadio}}" stepKey="clickGenoapayCheckbox"/>
-        <see userInput="interest free payments from" selector="{{StorefrontGenoapayCheckoutSection.GenoapayPaymentContent}}" stepKey="seeInstallmentText"/>
+        <seeElement selector="{{StorefrontGenoapayCheckoutSection.GenoapayPaymentContent}}" stepKey="seeInstallmentText"/>
     </actionGroup>
 </actionGroups>

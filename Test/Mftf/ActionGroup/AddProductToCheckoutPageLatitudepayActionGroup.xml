@@ -31,6 +31,6 @@
         <click selector="{{CheckoutShippingMethodsSection.next}}" stepKey="clickNext"/>
         <waitForElement selector="{{CheckoutPaymentSection.paymentSectionTitle}}" stepKey="waitForPlaceOrderButton"/>
         <click selector="{{StorefrontLatitudepayCheckoutSection.LatitudepayPaymentRadio}}" stepKey="clickLatitudeCheckbox"/>
-        <see userInput="interest free payments from" selector="{{StorefrontLatitudepayCheckoutSection.LatitudepayPaymentContent}}" stepKey="seeInstallmentText"/>
+        <seeElement selector="{{StorefrontLatitudepayCheckoutSection.LatitudepayPaymentContent}}" stepKey="seeInstallmentText"/>
     </actionGroup>
 </actionGroups>

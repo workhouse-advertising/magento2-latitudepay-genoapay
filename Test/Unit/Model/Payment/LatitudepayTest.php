@@ -18,7 +18,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\StoreManagerInterface;
-
 use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\Context;
@@ -30,6 +29,7 @@ use Magento\Payment\Model\MethodInterface;
 use Magento\Payment\Model\Info as InfoModel;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment;
+use Magento\Quote\Api\Data\CartInterface;
 
 class LatitudepayTest extends LatitudeTestCase
 {
@@ -55,6 +55,11 @@ class LatitudepayTest extends LatitudeTestCase
      * @var StoreInterface|MockObject
      */
     private $storeMock;
+
+    /**
+     * @var CartInterface|MockObject
+     */
+    private $quoteMock;
 
     protected function setUp(): void
     {
@@ -86,6 +91,16 @@ class LatitudepayTest extends LatitudeTestCase
         $this->storeMock
             ->method('getCurrentCurrencyCode')
             ->willReturn('AUD');
+        
+        $this->quoteMock = $this->getMockForAbstractClass(
+            CartInterface::class,
+            [],
+            '',
+            true,
+            true,
+            true,
+            ['getGrandTotal']
+        );
     
         $this->storeManagerMock->expects($this->any())->method('getStore')->willReturn($this->storeMock);
 
@@ -138,7 +153,10 @@ class LatitudepayTest extends LatitudeTestCase
         $this->scopeConfigMock->expects($this->any())
             ->method('getValue')
             ->willReturn('1');
-        $this->assertTrue($this->latitudepay->isAvailable());
+        $this->quoteMock
+            ->method('getGrandTotal')
+            ->willReturn(30);
+        $this->assertTrue($this->latitudepay->isAvailable($this->quoteMock));
     }
 
     /**
@@ -149,7 +167,10 @@ class LatitudepayTest extends LatitudeTestCase
         $this->scopeConfigMock->expects($this->any())
             ->method('getValue')
             ->willReturn('0');
-        $this->assertFalse($this->latitudepay->isAvailable());
+        $this->quoteMock
+            ->method('getGrandTotal')
+            ->willReturn(19);
+        $this->assertFalse($this->latitudepay->isAvailable($this->quoteMock));
     }
 
     /**

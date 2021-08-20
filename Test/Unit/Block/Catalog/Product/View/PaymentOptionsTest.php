@@ -87,17 +87,4 @@ class PaymentOptionsTest extends LatitudeTestCase
             ]
         );
     }
-
-    public function testGetInstallmentText()
-    {
-        $amount = '100 AUD';
-        $expectedText = __('<span >Starting interest free at <strong>%1 </strong> for <strong>10</strong> payments</span>',$amount);
-        $cmsBlockMock = $this->createPartialMock(CmsBlock::class,['toHtml']);
-        $cmsBlockMock->expects($this->any())->method('toHtml')->willReturn('<span >Starting interest free at <strong>%1 </strong> for <strong>10</strong> payments</span>');
-        $this->layoutMock->expects($this->any())->method('createBlock')->with('Magento\Cms\Block\Block')->willReturn($cmsBlockMock);   
-        $this->priceCurrencyMock->expects($this->any())->method('convertAndFormat')->willReturn($amount);
-        $this->productMock->expects($this->any())->method('getFinalPrice')->willReturn(100);
-        $this->registryMock->expects($this->any())->method('registry')->with('current_product')->willReturn($this->productMock);  
-        $this->assertEquals($expectedText, $this->paymentOptionsBlock->getInstallmentText());
-    }
 }

@@ -39,6 +39,7 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
     protected $configHelper;
 
     const INSTALLMENT_NO = 10;
+
     /**
      * PaymentOptions constructor.
      * @param Context $context
@@ -77,9 +78,8 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
      * @return string
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getInstallmentAmount()
+    public function getAmount()
     {
-        $curInstallment = 10;
         $amountPerInstallment ='';
         $totalAmount = $this->getCurrentProduct()->getFinalPrice();
         $InstallmentNo = $this->configHelper->getConfigData('installment_no');
@@ -87,21 +87,9 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
             $curInstallment = $InstallmentNo;
         }
         if($curInstallment){
-            $amountPerInstallment = $totalAmount / $curInstallment;
+            $amountPerInstallment = $totalAmount;
         }
-        return $this->priceCurrency->convertAndFormat($amountPerInstallment);
-    }
-
-    /**
-     * Retrieve Payment Installment Text
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @return \Magento\Framework\Phrase
-     */
-    public function getInstallmentText()
-    {
-        /** @noinspection PhpUndefinedMethodInspection */
-        $text = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('latitude_product_block')->toHtml();
-        return __($text, $this->getInstallmentAmount());
+        return $amountPerInstallment;
     }
     /**
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -113,4 +101,43 @@ class PaymentOptions extends \Magento\Framework\View\Element\Template
         return $this->configHelper->getConfigData('show_in_mobile',null, $methodCode);
     }
 
+    /**
+     * Retrieve Snippet Image
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return \Magento\Framework\Phrase
+     */
+    public function getSnippetImage()
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $param = [
+            'amount' => $this->getAmount(),
+            'services' => $this->configHelper->getLatitudepayPaymentServices(),
+            'terms' => $this->configHelper->getLatitudepayPaymentTerms(),
+            'style' => 'default'
+        ];
+        return $this->configHelper->getSnippetImageUrl() . '?' . http_build_query($param);
+    }
+
+    /**
+     * Retrieve util js
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return \Magento\Framework\Phrase
+     */
+    public function getUtilJs()
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        return $this->configHelper->getUtilJs();
+    }
+
+    public function _toHtml()
+    {
+        $_product = $this->getCurrentProduct();
+        if(!$_product){
+            return '';
+        }
+        if( $_product->isAvailable() && $_product->isSaleable() && ($this->configHelper->isLatitudepayEnabled() || $this->configHelper->isGenoapayEnabled())){
+            return parent::_toHtml();
+        }
+        return '';
+    }
 }

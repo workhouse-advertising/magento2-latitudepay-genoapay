@@ -30,6 +30,7 @@ define(['jquery', 'underscore','priceUtils','mage/utils/wrapper'], function ($, 
                 var amountPerInstallment = configuredPrice / curInstallment,
                     installmentText = (amountPerInstallment * 100) / 100,
                     price = utils.formatPrice(installmentText, priceFormat);
+                    console.log(amountPerInstallment);
                 $(".latitude-icon .price").html(price);
             }
            }

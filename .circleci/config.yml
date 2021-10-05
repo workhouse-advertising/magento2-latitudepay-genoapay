@@ -349,10 +349,10 @@ workflows:
           filters:
             branches:
               only: master
-      - deploy:
-          requires:
-            - php73-m242
-            - php74-m242
-          filters:
-            branches:
-              only: staging
+      # - deploy:
+      #     requires:
+      #       - php73-m242
+      #       - php74-m242
+      #     filters:
+      #       branches:
+      #         only: staging

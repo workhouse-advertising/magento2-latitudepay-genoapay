@@ -63,6 +63,7 @@ commands: # a reusable command with parameters
             cd /var/www/html
             vendor/bin/mftf build:project --MAGENTO_BASE_URL=http://magento2.localhost/ --MAGENTO_BACKEND_NAME=admin --MAGENTO_ADMIN_USERNAME=admin --MAGENTO_ADMIN_PASSWORD=admin123
             sed -i 's/chromeOptions:/"goog:chromeOptions":/g' dev/tests/acceptance/tests/functional.suite.yml
+            sed -i 's/%WAIT_TIMEOUT%/120/g' dev/tests/acceptance/tests/functional.suite.yml
             sed -i 's/"--disable-extensions",/"--disable-extensions","--no-sandbox", "--headless",/g' dev/tests/acceptance/tests/functional.suite.yml
   cs-tests:
     steps:

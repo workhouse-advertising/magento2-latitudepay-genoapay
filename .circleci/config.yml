@@ -176,9 +176,8 @@ jobs:
           name: Tag new release
           command: |
             cd ~/latitude
-            cd bin/
-            chmod +x git_release.sh
-            ./git_release.sh
+            chmod +x bin/git_release.sh
+            bin/git_release.sh
   php74-m237:
     docker:
       - image: registry.gitlab.com/magebinary/docker-opensource-ecommerce:magento-2.3.7-php-7.4

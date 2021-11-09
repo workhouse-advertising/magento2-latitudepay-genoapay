@@ -19,7 +19,7 @@ do
 done
 echo "Create new tag: ${COMPOSER_TAG}"
 CHANGELOG_JSON="Create new tag: ${COMPOSER_TAG}"
-API_JSON=$(printf '{"tag_name": "%s","target_commitish": "ci-cd","name": "%s","body": "%s","draft": false,"prerelease": false}' $COMPOSER_TAG $COMPOSER_TAG "$CHANGELOG_JSON")
+API_JSON=$(printf '{"tag_name": "%s","target_commitish": "master","name": "%s","body": "%s","draft": false,"prerelease": false}' $COMPOSER_TAG $COMPOSER_TAG "$CHANGELOG_JSON")
 
 curl -H "Authorization: token ${GITHUB_TOKEN}" --data "$API_JSON" https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/releases
 

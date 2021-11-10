@@ -14,4 +14,4 @@ same directory as this `README.md` file.
 
 ## Additional Information
 
-[View the webiste](https://www.latitudepay.com/how-it-works/)
+[View the website](https://www.latitudepay.com/how-it-works/)

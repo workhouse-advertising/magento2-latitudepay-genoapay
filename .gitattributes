@@ -12,3 +12,5 @@
 /default.env export-ignore
 /default.env.template export-ignore
 /docker-compose.yml export-ignore
+/Test export-ignore
+/phpmd.xml export-ignore

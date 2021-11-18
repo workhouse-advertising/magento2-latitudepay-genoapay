@@ -163,6 +163,10 @@ class Checkout
      * @var \Magento\Framework\Session\Generic
      */
     protected $latitudeSession;
+    /**
+     * @var \Magento\Framework\Message\ManagerInterface
+     */
+    protected $messageManager;
 
     /**
      * @param \Latitude\Payment\Logger\Logger $logger
@@ -182,6 +186,7 @@ class Checkout
      * @param \Magento\Quote\Model\Quote\TotalsCollector $totalsCollector
      * @param \Latitude\Payment\Model\Config $Config
      * @param \Magento\Framework\Session\Generic $latitudeSession
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @throws \Exception
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -202,7 +207,8 @@ class Checkout
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
         \Magento\Quote\Model\Quote\TotalsCollector $totalsCollector,
         \Latitude\Payment\Model\Config $Config,
-        \Magento\Framework\Session\Generic $latitudeSession
+        \Magento\Framework\Session\Generic $latitudeSession,
+        \Magento\Framework\Message\ManagerInterface $messageManager
     ) {
         $this->logger = $logger;
         $this->taxData = $taxData;
@@ -222,6 +228,7 @@ class Checkout
         $this->config = $Config;
         $this->quote = $checkoutSession->getQuote();
         $this->latitudeSession = $latitudeSession;
+        $this->messageManager = $messageManager;
 
     }
 
@@ -452,8 +459,11 @@ class Checkout
      * @param string $token
      * @return void
      */
-    public function place($token)
+    public function place($payload)
     {
+        $token = $payload['token'];
+        $signature = $payload['signature'];
+        $this->_getApi()->validatePayload($payload);
 
         if ($this->getCheckoutMethod() == \Magento\Checkout\Model\Type\Onepage::METHOD_GUEST) {
             $this->prepareGuestQuote();
@@ -466,13 +476,22 @@ class Checkout
         if (!$order) {
             return;
         }
-        $payment = $order->getPayment();
-        $payment->setTransactionId($token)
-            ->setCurrencyCode($order->getBaseCurrencyCode())
-            ->setParentTransactionId($payment->getTransactionId())
-            ->setShouldCloseParentTransaction(true)
-            ->setIsTransactionClosed(0)
-            ->registerCaptureNotification($order->getBaseGrandTotal());
+        
+        if($this->_getApi()->validateTotalAmount($token,$signature)) {
+            $payment = $order->getPayment();
+            $payment->setTransactionId($token)
+                ->setCurrencyCode($order->getBaseCurrencyCode())
+                ->setParentTransactionId($payment->getTransactionId())
+                ->setShouldCloseParentTransaction(true)
+                ->setIsTransactionClosed(0)
+                ->registerCaptureNotification($order->getBaseGrandTotal());    
+        } else {
+            $order->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT, true);
+            $order->setStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
+            $order->addStatusToHistory($order->getStatus(), 'Latitude Payment Marked Order To Pending Payment For Review');
+            $this->messageManager->addWarningMessage('Your cart have some changes. We marked your order is pending payment for review');
+        }
+        
         $order->save();
 
         switch ($order->getState()) {

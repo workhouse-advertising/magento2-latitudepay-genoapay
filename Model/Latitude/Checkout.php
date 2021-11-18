@@ -488,7 +488,7 @@ class Checkout
         } else {
             $order->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT, true);
             $order->setStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
-            $order->addStatusToHistory($order->getStatus(), 'Latitude Payment Marked Order To Pending Payment For Review');
+            $order->addStatusToHistory($order->getStatus(), '<strong style="color:red;">Amount paid and Total cart amount Mismatch. Please investigate before shipping.</strong>');
             $this->messageManager->addWarningMessage('Your cart have some changes. We marked your order is pending payment for review');
         }
         

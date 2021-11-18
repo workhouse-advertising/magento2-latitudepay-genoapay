@@ -326,7 +326,7 @@ class Lpay extends AbstractApi
     public function validatePayload($payload)
     {
         if($payload['reference'] !== $this->cart->getQuote()->getReservedOrderId()) {
-            throw new  \Magento\Framework\Exception\LocalizedException(__('Invalid order/Session Expired'));
+            throw new  \Magento\Framework\Exception\LocalizedException(__('Invalid Token'));
         }
         return true;
     }

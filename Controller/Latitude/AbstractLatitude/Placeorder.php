@@ -40,7 +40,7 @@ class Placeorder extends \Latitude\Payment\Controller\Latitude\AbstractLatitude
             // Log payload callback
             $this->logCallback($post);
 
-            $this->checkout->place($post["token"]);
+            $this->checkout->place($post);
 
 
             // prepare session to success or cancellation page
@@ -79,6 +79,7 @@ class Placeorder extends \Latitude\Payment\Controller\Latitude\AbstractLatitude
             $this->_redirect('checkout/onepage/success');
             return;
         }  catch (LocalizedException $e) {
+            $this->messageManager->addError($e->getRawMessage());
             $this->processException($e, $e->getRawMessage());
         } catch (\Exception $e) {
             $this->processException($e, 'We can\'t place the order.');

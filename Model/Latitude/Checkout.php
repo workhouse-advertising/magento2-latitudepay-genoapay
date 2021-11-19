@@ -489,7 +489,7 @@ class Checkout
             $order->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT, true);
             $order->setStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
             $order->addStatusToHistory($order->getStatus(), '<strong style="color:red;">Amount paid and Total cart amount Mismatch. Please investigate before shipping.</strong>');
-            $this->messageManager->addWarningMessage('Your cart was updated resulting a price Mismatch. We have marked your order as Pending for a review.');
+            $this->messageManager->addWarningMessage('Your cart was updated resulting in a price mismatch. We have marked your order as Pending for a review.');
         }
         
         $order->save();

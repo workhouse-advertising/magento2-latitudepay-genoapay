@@ -160,7 +160,6 @@ class Lpay extends AbstractApi
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Checkout\Model\Cart $cart,
-
         array $data = []
     ) {
         parent::__construct($customerAddress, $logger, $localeResolver, $regionFactory, $checkoutSession,$data);
@@ -191,7 +190,9 @@ class Lpay extends AbstractApi
         $salesStringStrippedBase64encoded = $this->curlHelper->base64EncodeSalesString(trim($salesStringStripped));
         $signatureHash                    = $this->curlHelper->getSignatureHash(trim($salesStringStrippedBase64encoded));
         try {
-            $response                     =  $this->curlHelper->createEcommercePurchase(json_encode($request,JSON_UNESCAPED_SLASHES), $token, $signatureHash);
+            $payload = json_encode($request,JSON_UNESCAPED_SLASHES);
+            $response                     =  $this->curlHelper->createEcommercePurchase($payload, $token, $signatureHash);
+            $this->saveSessionTotalAmount($request, $token, $signatureHash);
         } catch (\Exception $e) {
              $this->logger->critical($e->getMessage());
         }
@@ -299,5 +300,34 @@ class Lpay extends AbstractApi
         $to['totalAmount']    =  $this->_exportTotal($this->setTotalAmountRequest);
         $to['returnUrls']     =  $this->_exportToRequest($this->setLatitudeCheckoutRequest);
         return $to;
+    }
+
+    protected function saveSessionTotalAmount($payload, $token, $signatureHash)
+    {
+        $totalAmount = $payload['totalAmount']['amount'];
+        $currency = $payload['totalAmount']['currency'];
+        $requestHash = sha1(implode('||',[$totalAmount,$currency]));
+        $this->checkoutSession->setLatitudeTotalAmount($requestHash);
+    }
+
+    public function validateTotalAmount($token,$signature)
+    {
+        $totalAmount = $this->formatPrice($this->cart->getQuote()->getBaseGrandTotal());
+        $currency = $this->cart->getQuote()->getBaseCurrencyCode();
+        $requestHash = sha1(implode('||',[$totalAmount,$currency]));
+        if($requestHash !== $this->checkoutSession->getLatitudeTotalAmount()){
+            $this->checkoutSession->unsLatitudeTotalAmount();
+            return false;
+        }
+        $this->checkoutSession->unsLatitudeTotalAmount();
+        return true;
+    }
+
+    public function validatePayload($payload)
+    {
+        if($payload['reference'] !== $this->cart->getQuote()->getReservedOrderId()) {
+            throw new  \Magento\Framework\Exception\LocalizedException(__('Invalid Token'));
+        }
+        return true;
     }
 }

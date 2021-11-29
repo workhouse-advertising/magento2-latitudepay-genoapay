@@ -20,7 +20,7 @@ class Latitude extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * @var \Latitude\Payment\Helper\Curl
      */
-    protected $curllHelper;
+    protected $curlHelper;
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
@@ -45,8 +45,8 @@ class Latitude extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb $resourceCollection
-     * @param \Latitude\Payment\Helper\Curl $curlHelper,
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager,
+     * @param \Latitude\Payment\Helper\Curl $curlHelper
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -79,7 +79,7 @@ class Latitude extends \Magento\Payment\Model\Method\AbstractMethod
         );
 
         $this->urlBuilder = $urlBuilder;
-        $this->curllHelper = $curlHelper;
+        $this->curlHelper = $curlHelper;
         $this->storeManager= $storeManager;
     }
 
@@ -143,7 +143,7 @@ class Latitude extends \Magento\Payment\Model\Method\AbstractMethod
             $storeId                  = $order->getStore()->getId();
             /** @noinspection PhpUndefinedMethodInspection */
             $methodCode               = $order->getPayment()->getMethod();
-            $this->curllHelper->createRefund($requestbody, $purchaseToken,$storeId,$methodCode);
+            $this->curlHelper->createRefund($requestbody, $purchaseToken,$storeId,$methodCode);
         } else {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('We can\'t issue a refund transaction because there is no capture transaction.')
@@ -190,7 +190,7 @@ class Latitude extends \Magento\Payment\Model\Method\AbstractMethod
         //1. check if API crediential coorect.
         //2. check currency is correct again
         //3. check quote amount is correct.
-        return $this->isActive();
+        return $this->isActive() && $quote && ($quote->getGrandTotal() >= 20);
     }
 
     /**
